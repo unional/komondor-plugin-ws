@@ -1,5 +1,4 @@
-import WebSocket = require('ws')
-import { ClientOptions } from 'ws'
+import WebSocket from 'ws'
 
 // istanbul ignore next
 export function createFakeClientBase(subject: typeof WebSocket): typeof WebSocket {
@@ -14,9 +13,7 @@ export function createFakeClientBase(subject: typeof WebSocket): typeof WebSocke
     static EventEmitter = subject.EventEmitter
 
     webSocket: WebSocket
-    constructor(address: string, options?: ClientOptions) {
-      this.webSocket = new subject(address, options)
-    }
+
     get binaryType() {
       return this.webSocket.binaryType
     }

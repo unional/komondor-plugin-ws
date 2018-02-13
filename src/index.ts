@@ -1,5 +1,5 @@
 import { SpecPluginUtil, SpecContext, KomondorRegistrar } from 'komondor'
-import WebSocket = require('ws')
+import WebSocket from 'ws'
 
 import { spyWebSocketClient } from './spyWebSocketClient'
 import { stubWebSocketClient } from './stubWebSocketClient'
