@@ -15,7 +15,7 @@
     "codecov": "codecov",
     "coverage": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "dependency-check": "dependency-check . --unused --no-dev && dependency-check . --missing --no-dev",
+    "dependency-check": "dependency-check . --unused --no-dev -i ws && dependency-check . --missing --no-dev",
     "lint": "tslint -p tsconfig.json 'src/**/*.ts'",
     "prepublishOnly": "npm run build",
     "preversion": "git pull && npm run verify",
