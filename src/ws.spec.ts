@@ -1,6 +1,6 @@
 import { AssertOrder } from 'assertron'
 import { spec, registerPlugin, SimulationMismatch } from 'komondor'
-import WebSocket = require('ws')
+import WebSocket from 'ws'
 
 import * as wsPlugin from './index'
 

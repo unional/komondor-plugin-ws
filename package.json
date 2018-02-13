@@ -6,7 +6,6 @@
   "typings": "dist-es5/index.d.ts",
   "files": [
     "dist-es5",
-    "dist-es2015",
     "src"
   ],
   "scripts": {

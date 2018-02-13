@@ -1,6 +1,5 @@
 import { SpecContext } from 'komondor'
-import WebSocket = require('ws')
-import { ClientOptions } from 'ws'
+import WebSocket, { ClientOptions } from 'ws'
 
 import { createFakeClientBase } from './createFakeClientBase'
 

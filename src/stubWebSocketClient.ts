@@ -1,7 +1,6 @@
 import { SpecContext, SpecPluginUtil, SimulationMismatch } from 'komondor'
 import { createSatisfier } from 'satisfier'
-import WebSocket = require('ws')
-import { ClientOptions } from 'ws'
+import WebSocket, { ClientOptions } from 'ws'
 
 import { createFakeClientBase } from './createFakeClientBase'
 
