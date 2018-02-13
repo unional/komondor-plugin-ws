@@ -7,8 +7,10 @@ import { createFakeClientBase } from './createFakeClientBase'
 export function spyWebSocketClient(context: SpecContext, subject: typeof WebSocket): Partial<typeof WebSocket> {
   // return type is Partial<typeof WebSocket> because the implementation is not complete.
   return class WebSocketClientSpy extends createFakeClientBase(subject) {
+    webSocket: WebSocket
     constructor(address: string, options?: ClientOptions) {
-      super(address, options)
+      super()
+      this.webSocket = new subject(address, options)
 
       context.add({
         type: 'ws/constructor',
