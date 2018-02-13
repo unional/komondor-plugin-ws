@@ -68,7 +68,6 @@
     "ws": "^4.0.0"
   },
   "dependencies": {
-    "satisfier": "^4.1.1",
-    "unpartial": "^0.4.1"
+    "satisfier": "^4.1.1"
   }
 }
