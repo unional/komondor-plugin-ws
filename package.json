@@ -52,6 +52,9 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     }
   },
+  "peerDependencies": {
+    "komondor": ">4.7.1"
+  },
   "devDependencies": {
     "@types/jest": "^22.1.2",
     "@types/node": "^9.4.5",
