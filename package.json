@@ -63,7 +63,7 @@
     "komondor": "^4.7.1",
     "nyc": "^11.4.1",
     "rimraf": "^2.6.2",
-    "semantic-release": "^12.4.1",
+    "semantic-release": "^15.0.3",
     "ts-jest": "^22.0.4",
     "tslint": "^5.9.1",
     "tslint-config-unional": "^0.9.0",
