@@ -5,8 +5,7 @@
   "main": "dist-es5/index.js",
   "typings": "dist-es5/index.d.ts",
   "files": [
-    "dist-es5",
-    "src"
+    "dist-es5"
   ],
   "scripts": {
     "build": "npm run clean && npm run build-es5",
@@ -54,21 +53,23 @@
     "ws": ">=4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^22.2.0",
-    "@types/node": "^9.4.7",
+    "@types/jest": "^22.2.2",
+    "@types/node": "^9.6.1",
     "dependency-check": "^3.1.0",
-    "jest": "^22.4.2",
-    "komondor": "^4.7.6",
+    "jest": "^22.4.3",
+    "komondor": "^4.8.0",
+    "komondor-test": "^1.0.0",
     "nyc": "^11.6.0",
     "rimraf": "^2.6.2",
-    "semantic-release": "^15.1.2",
-    "ts-jest": "^22.4.1",
+    "semantic-release": "^15.1.4",
+    "ts-jest": "^22.4.2",
     "tslint": "^5.9.1",
     "tslint-config-unional": "^0.9.2",
-    "typescript": "^2.8.0-rc",
-    "ws": "^5.0.0"
+    "typescript": "^2.8.1",
+    "ws": "^5.1.0"
   },
   "dependencies": {
+    "komondor-plugin": "^1.4.0",
     "satisfier": "^4.2.1"
   }
 }
