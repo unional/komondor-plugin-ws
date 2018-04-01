@@ -56,11 +56,12 @@ export function stubWebSocketClient(context: StubContext, subject: typeof WebSoc
       this.emitNextActions()
     }
     terminate() {
-      const action = context.peek()
+      const call = this.__komondor.call
+      const action = call.peek()
       if (!action || action.type !== 'ws' || action.meta.methodName !== 'terminate') {
         throw new SimulationMismatch(context.specId, { type: 'ws', meta: { methodName: 'send' } }, action)
       }
-      context.next()
+      call.next()
       this.emitNextActions()
     }
   }

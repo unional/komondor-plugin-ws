@@ -201,5 +201,5 @@ test('simulate on unexpected terminate will throw', async () => {
     ws.on('open', a)
   })
 
-  expect(ws.terminate).toThrow(SimulationMismatch)
+  expect(() => ws.terminate()).toThrow(SimulationMismatch)
 })
