@@ -1,9 +1,9 @@
-import { SpecContext } from 'komondor'
+import { SpyContext } from 'komondor-plugin'
 import WebSocket, { ClientOptions } from 'ws'
 
 import { createFakeClientBase } from './createFakeClientBase'
 
-export function spyWebSocketClient(context: SpecContext, subject: typeof WebSocket): Partial<typeof WebSocket> {
+export function spyWebSocketClient(context: SpyContext, subject: typeof WebSocket): Partial<typeof WebSocket> {
   // return type is Partial<typeof WebSocket> because the implementation is not complete.
   return class WebSocketClientSpy extends createFakeClientBase(subject) {
     webSocket: WebSocket
@@ -11,52 +11,25 @@ export function spyWebSocketClient(context: SpecContext, subject: typeof WebSock
       super()
       this.webSocket = new subject(address, options)
 
-      context.add({
-        type: 'ws/constructor',
-        payload: [address, options]
-      })
+      context.add('ws', 'constructor', [address, options])
     }
     on(event: string, listener) {
-      if (event === 'message') {
-        const wrapped = (message) => {
-          context.add({
-            type: 'ws/message',
-            payload: message,
-            meta: {
-              event
-            }
-          })
-          listener(message)
-        }
-        super.on(event, wrapped)
+      const call = context.newCall()
+      const wrapped = (...args) => {
+        call.invoke(args, { methodName: 'on', event })
+        listener(...args)
       }
-      else {
-        const wrapped = (...args) => {
-          context.add({
-            type: 'ws/event',
-            payload: args,
-            meta: {
-              event
-            }
-          })
-          listener(...args)
-        }
-        super.on(event, wrapped)
-      }
+      super.on(event, wrapped)
       return this
     }
     send(message, options?, cb?) {
-      context.add({
-        type: 'ws/send',
-        payload: message
-      })
+      const call = context.newCall()
+      call.invoke([message, options, cb], { methodName: 'send' })
       super.send(message, options, cb)
     }
     terminate() {
-      context.add({
-        type: 'ws/terminate',
-        payload: undefined
-      })
+      const call = context.newCall()
+      call.invoke([], { methodName: 'terminate' })
       super.terminate()
     }
   }
