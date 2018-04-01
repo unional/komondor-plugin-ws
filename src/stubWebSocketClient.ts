@@ -11,11 +11,11 @@ function isWSEventAction(action) {
 export function stubWebSocketClient(context: StubContext, subject: typeof WebSocket): Partial<typeof WebSocket> {
   return class WebSocketClientStub extends createFakeClientBase(subject) {
     // tslint:disable-next-line:variable-name
-    __komondorStub: any = { listeners: {} }
+    __komondor: any = { listeners: {} }
     constructor(address: string, options?: ClientOptions) {
       super()
-      this.__komondorStub.ctorArgs = [address, options]
-      const call = this.__komondorStub.call = context.newCall()
+      this.__komondor.ctorArgs = [address, options]
+      const call = this.__komondor.call = context.newCall()
       const action = call.peek()
       if (!action || !createSatisfier(action.payload).test(JSON.parse(JSON.stringify([address, options])))) {
         throw new SimulationMismatch(context.specId, { type: 'ws', name: 'constructor', payload: [address, options] }, action)
@@ -27,27 +27,26 @@ export function stubWebSocketClient(context: StubContext, subject: typeof WebSoc
       })
     }
     emitNextActions() {
-      const call = this.__komondorStub.call
+      const call = this.__komondor.call
       let action = call.peek()
       while (action && isWSEventAction(action)) {
         call.next()
-        const listeners = this.__komondorStub.listeners[action.meta.event]
+        const listeners = this.__komondor.listeners[action.meta.event]
         if (listeners) {
-          // tslint:disable-next-line
-          listeners.forEach(l => l(...action!.payload))
+          listeners.forEach(l => l(...action.payload))
         }
         action = call.peek()
       }
     }
     on(event: string, listener) {
-      const listeners = this.__komondorStub.listeners
+      const listeners = this.__komondor.listeners
       if (!listeners[event])
         listeners[event] = []
       listeners[event].push(listener)
       return this
     }
     send(message, options?, cb?) {
-      const call = this.__komondorStub.call
+      const call = this.__komondor.call
       const action = call.peek()
 
       if (!action || action.type !== 'ws' || action.meta.methodName !== 'send' || action.payload[0] !== message) {

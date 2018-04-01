@@ -1,4 +1,4 @@
-import { AssertOrder } from 'assertron'
+import a, { AssertOrder } from 'assertron'
 import { spec, config } from 'komondor'
 import { SimulationMismatch } from 'komondor-plugin'
 import { testTrio } from 'komondor-test'
@@ -146,6 +146,11 @@ testTrio('ws/echoMultiple/success', (title, spec) => {
   })
 })
 
+test('simulate on wrong constructor input will throw', async () => {
+  const wsSpec = await spec.simulate('open-terminate/success', WebSocket)
+  return a.throws(() => new wsSpec.subject('ws://wrongurl'), SimulationMismatch)
+})
+
 test('simulate on unexpected send will throw', async () => {
   const wsSpec = await spec.simulate('open-terminate/success', WebSocket)
   const ws = new wsSpec.subject('ws://html5rocks.websocket.org/echo')
@@ -157,6 +162,36 @@ test('simulate on unexpected send will throw', async () => {
   expect(() => ws.send('p')).toThrow(SimulationMismatch)
 })
 
+test('simulate without listen is fine', async () => {
+  const s = await spec.simulate('ws/echoSingle/success', WebSocket)
+  const ws = new s.subject('ws://html5rocks.websocket.org/echo')
+
+  ws.on('open', () => {
+    ws.send('Ping')
+    ws.terminate()
+  })
+
+  const order = new AssertOrder(1)
+  ws.on('close', () => { order.once(1) })
+  await order.wait(1)
+  order.end()
+})
+
+test('simulate on() same event multiple times', async () => {
+  const s = await spec.simulate('ws/echoSingle/success', WebSocket)
+  const ws = new s.subject('ws://html5rocks.websocket.org/echo')
+
+  ws.on('open', () => {
+    ws.send('Ping')
+    ws.terminate()
+  })
+  const order = new AssertOrder(3)
+  ws.on('message', () => { order.once(1) })
+  ws.on('message', () => { order.once(2) })
+  ws.on('close', () => { order.once(3) })
+  await order.wait(3)
+  order.end()
+})
 
 test('simulate on unexpected terminate will throw', async () => {
   const wsSpec = await spec.simulate('ws/echoSingle/success', WebSocket)
