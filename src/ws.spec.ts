@@ -24,7 +24,7 @@ testTrio('open-terminate/success', (title, spec) => {
     })
 
     await s.satisfy([
-      { type: 'ws', name: 'constructor' },
+      { type: 'ws', name: 'construct' },
       { type: 'ws', name: 'invoke', meta: { methodName: 'on', event: 'open' } },
       { type: 'ws', name: 'invoke', meta: { methodName: 'terminate' } }
     ])
@@ -52,7 +52,7 @@ testTrio('ws/echoSingle/success', (title, spec) => {
     await order.wait(2)
 
     await s.satisfy([
-      { type: 'ws', name: 'constructor', payload: ['ws://html5rocks.websocket.org/echo'], instanceId: 1 },
+      { type: 'ws', name: 'construct', payload: ['ws://html5rocks.websocket.org/echo'], instanceId: 1 },
       { type: 'ws', meta: { methodName: 'on', event: 'open' }, instanceId: 1, invokeId: 1 },
       { type: 'ws', payload: ['Ping'], meta: { methodName: 'send' }, instanceId: 1, invokeId: 4 },
       { type: 'ws', payload: ['Ping'], meta: { methodName: 'on', event: 'message' }, instanceId: 1, invokeId: 2 },
@@ -86,7 +86,7 @@ testTrio('ws/echoMultiple/success', (title, spec) => {
     await s.satisfy([
       {
         type: 'ws',
-        name: 'constructor',
+        name: 'construct',
         payload: ['ws://html5rocks.websocket.org/echo'],
         instanceId: 1
       },

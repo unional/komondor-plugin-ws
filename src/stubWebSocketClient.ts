@@ -1,5 +1,4 @@
 import { StubContext, SimulationMismatch } from 'komondor-plugin'
-import { createSatisfier } from 'satisfier'
 import WebSocket, { ClientOptions } from 'ws'
 
 import { TYPE } from './constants'
@@ -15,13 +14,9 @@ export function stubWebSocketClient(context: StubContext, subject: typeof WebSoc
     constructor(address: string, options?: ClientOptions) {
       super()
       this.__komondor.ctorArgs = [address, options]
-      const call = this.__komondor.call = context.newCall()
-      const action = call.peek()
-      if (!action || !createSatisfier(action.payload).test(JSON.parse(JSON.stringify([address, options])))) {
-        throw new SimulationMismatch(context.specId, { type: 'ws', name: 'constructor', payload: [address, options] }, action)
-      }
-
-      call.next()
+      const instance = this.__komondor.instance = context.newInstance()
+      instance.constructed([address, options], { className: 'WebSocket' })
+      this.__komondor.call = instance.newCall()
       setImmediate(() => {
         this.emitNextActions()
       })
