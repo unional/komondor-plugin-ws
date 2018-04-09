@@ -14,8 +14,7 @@ export function stubWebSocketClient(context: StubContext, subject: typeof WebSoc
     constructor(address: string, options?: ClientOptions) {
       super()
       this.__komondor.ctorArgs = [address, options]
-      const instance = this.__komondor.instance = context.newInstance()
-      instance.constructed([address, options], { className: 'WebSocket' })
+      const instance = this.__komondor.instance = context.newInstance([address, options], { className: 'WebSocket' })
       this.__komondor.call = instance.newCall()
       setImmediate(() => {
         this.emitNextActions()

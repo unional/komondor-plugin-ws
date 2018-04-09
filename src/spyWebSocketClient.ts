@@ -12,10 +12,8 @@ export function spyWebSocketClient(context: SpyContext, subject: typeof WebSocke
 
     constructor(address: string, options?: ClientOptions) {
       super()
-      const instance = this.__komondor.instance = context.newInstance()
+      this.__komondor.instance = context.newInstance([address, options], { className: 'WebSocket' })
       this.webSocket = new subject(address, options)
-
-      instance.construct([address, options], { className: 'WebSocket' })
     }
     on(event: string, listener) {
       const call = this.__komondor.instance.newCall()
