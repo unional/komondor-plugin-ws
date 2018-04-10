@@ -1,4 +1,4 @@
-import { StubContext, SimulationMismatch } from 'komondor-plugin'
+import { StubContext, SimulationMismatch, StubCall } from 'komondor-plugin'
 import WebSocket, { ClientOptions } from 'ws'
 
 import { TYPE } from './constants'
@@ -13,24 +13,17 @@ export function stubWebSocketClient(context: StubContext, subject: typeof WebSoc
     __komondor: any = { listeners: {} }
     constructor(address: string, options?: ClientOptions) {
       super()
-      this.__komondor.ctorArgs = [address, options]
       const instance = this.__komondor.instance = context.newInstance([address, options], { className: 'WebSocket' })
-      this.__komondor.call = instance.newCall()
-      setImmediate(() => {
-        this.emitNextActions()
-      })
-    }
-    emitNextActions() {
-      const call = this.__komondor.call
-      let action = call.peek()
-      while (action && isWSEventAction(action)) {
-        call.next()
-        const listeners = this.__komondor.listeners[action.meta.event]
-        if (listeners) {
-          listeners.forEach(l => l(...action.payload))
+      const call = this.__komondor.call = instance.newCall()
+      call.onAny(action => {
+        if (isWSEventAction(action)) {
+          call.invoked(action.payload, action.meta)
+          const listeners = this.__komondor.listeners[action.meta.event]
+          if (listeners) {
+            listeners.forEach(l => l(...action.payload))
+          }
         }
-        action = call.peek()
-      }
+      })
     }
     on(event: string, listener) {
       const listeners = this.__komondor.listeners
@@ -40,23 +33,12 @@ export function stubWebSocketClient(context: StubContext, subject: typeof WebSoc
       return this
     }
     send(message, options?, cb?) {
-      const call = this.__komondor.call
-      const action = call.peek()
-
-      if (!action || action.type !== 'ws' || action.meta.methodName !== 'send' || action.payload[0] !== message) {
-        throw new SimulationMismatch(context.specId, { type: 'ws', payload: [message, options], meta: { methodName: 'send' } }, action)
-      }
-      call.next()
-      this.emitNextActions()
+      const call: StubCall = this.__komondor.call
+      call.invoked([message, options, cb], { methodName: 'send' })
     }
     terminate() {
       const call = this.__komondor.call
-      const action = call.peek()
-      if (!action || action.type !== 'ws' || action.meta.methodName !== 'terminate') {
-        throw new SimulationMismatch(context.specId, { type: 'ws', meta: { methodName: 'send' } }, action)
-      }
-      call.next()
-      this.emitNextActions()
+      call.invoked([], { methodName: 'terminate' })
     }
   }
 }

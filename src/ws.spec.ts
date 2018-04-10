@@ -162,8 +162,9 @@ test('simulate on unexpected send will throw', async () => {
   expect(() => ws.send('p')).toThrow(SimulationMismatch)
 })
 
-test('simulate without listen is fine', async () => {
+test.only('simulate without listen is fine', async () => {
   const s = await spec.simulate('ws/echoSingle/success', WebSocket)
+  console.log(s.actions)
   const ws = new s.subject('ws://html5rocks.websocket.org/echo')
 
   ws.on('open', () => {
