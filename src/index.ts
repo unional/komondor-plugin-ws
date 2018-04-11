@@ -5,6 +5,18 @@ import { TYPE } from './constants'
 import { spyWebSocketClient } from './spyWebSocketClient'
 import { stubWebSocketClient } from './stubWebSocketClient'
 
+export function webSocketConstructed(url?: string, options?) {
+  return { type: TYPE, name: 'construct', payload: [url, options], meta: { className: 'WebSocket' } }
+}
+
+export function webSocketMethodInvoked(methodName: string, ...args: any[]) {
+  return { type: TYPE, name: 'invoke', payload: args, meta: { methodName } }
+}
+
+export function webSocketMethodReturned(methodName?: string) {
+  return { type: TYPE, name: 'return', meta: { methodName } }
+}
+
 export function activate(registrar: Registrar) {
   registrar.register(
     TYPE,
@@ -15,7 +27,7 @@ export function activate(registrar: Registrar) {
 }
 
 function isWebSocketClient(subject): subject is typeof WebSocket {
-  return subject.name === 'WebSocket' &&
+  return subject && subject.name === 'WebSocket' &&
     subject.CONNECTING === 0 &&
     subject.OPEN === 1 &&
     subject.CLOSING === 2 &&
