@@ -43,36 +43,41 @@
     "roots": [
       "<rootDir>/src"
     ],
+    "setupFiles": [
+      "<rootDir>/scripts/setup-test-env.js"
+    ],
     "testRegex": ".*\\.(test|spec).(js|ts)$",
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     }
   },
   "peerDependencies": {
-    "komondor": ">=4.9.2",
-    "komondor-plugin": ">=1.5",
+    "komondor": ">=4.11.3",
+    "komondor-plugin": ">=1.6",
     "ws": ">=4.0.0"
   },
   "devDependencies": {
     "@types/jest": "^22.2.2",
-    "@types/node": "^9.6.1",
+    "@types/node": "^9.6.4",
+    "@unional/logging": "^0.4.1",
+    "aurelia-logging-color": "^0.5.15",
     "dependency-check": "^3.1.0",
     "eslint": "^4.19.1",
     "eslint-plugin-harmony": "^1.0.3",
     "jest": "^22.4.3",
-    "komondor": "^4.9.2",
-    "komondor-plugin": "^1.5.1",
+    "komondor": "^4.11.3",
+    "komondor-plugin": "^1.6.1",
     "komondor-test": "^2.0.0",
     "nyc": "^11.6.0",
     "rimraf": "^2.6.2",
-    "semantic-release": "^15.1.4",
+    "semantic-release": "^15.1.5",
     "ts-jest": "^22.4.2",
     "tslint": "^5.9.1",
     "tslint-config-unional": "^0.9.2",
     "typescript": "^2.8.1",
-    "ws": "^5.1.0"
+    "ws": "^5.1.1"
   },
   "dependencies": {
-    "satisfier": "^4.2.1"
+    "satisfier": "^4.4.1"
   }
 }
