@@ -1,6 +1,6 @@
 import { AssertOrder } from 'assertron'
 import { config, callbackInvoked } from 'komondor'
-import { testTrio } from 'komondor-test'
+import k from 'komondor-test'
 import WebSocket from 'ws'
 
 import * as wsPlugin from './index'
@@ -8,11 +8,11 @@ import { webSocketConstructed, webSocketMethodInvoked, webSocketMethodReturned }
 
 config.registerPlugin(wsPlugin)
 
-// Note that since `testTrio()` is making real call to the echo service
+// Note that since `k.trio()` is making real call to the echo service
 // If there are too many test ran, the echo service may reject the calls.
 // If that happens, then I have to do something to reduce the calls during CI.
 
-testTrio('open-terminate/success', (title, spec) => {
+k.trio('open-terminate/success', (title, spec) => {
   test(title, async () => {
     const s = await spec(WebSocket)
     const ws = new s.subject('ws://html5rocks.websocket.org/echo')
@@ -33,7 +33,7 @@ testTrio('open-terminate/success', (title, spec) => {
   })
 })
 
-testTrio('ws/echoSingle/success', (title, spec) => {
+k.trio('ws/echoSingle/success', (title, spec) => {
   test(title, async () => {
     const s = await spec(WebSocket)
     const ws = new s.subject('ws://html5rocks.websocket.org/echo')
@@ -74,7 +74,7 @@ testTrio('ws/echoSingle/success', (title, spec) => {
   })
 })
 
-testTrio('ws/echoMultiple/success', (title, spec) => {
+k.trio('ws/echoMultiple/success', (title, spec) => {
   test(title, async () => {
     const s = await spec(WebSocket)
     const ws = new s.subject('ws://html5rocks.websocket.org/echo')
