@@ -52,7 +52,7 @@
     }
   },
   "peerDependencies": {
-    "komondor": ">=4.11.3",
+    "komondor": ">=5",
     "komondor-plugin": ">=1.6",
     "ws": ">=4.0.0"
   },
@@ -67,7 +67,7 @@
     "jest": "^22.4.3",
     "komondor": "^5.0.0",
     "komondor-plugin": "^1.6.1",
-    "komondor-test": "^2.0.0",
+    "komondor-test": "^2.1.0",
     "nyc": "^11.6.0",
     "rimraf": "^2.6.2",
     "semantic-release": "^15.1.5",
