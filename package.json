@@ -52,7 +52,7 @@
     }
   },
   "peerDependencies": {
-    "komondor": ">=4.11.3",
+    "komondor": ">=5",
     "komondor-plugin": ">=1.6",
     "ws": ">=4.0.0"
   },
