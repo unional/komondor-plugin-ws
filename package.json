@@ -57,7 +57,7 @@
     "ws": ">=4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^22.2.2",
+    "@types/jest": "^24.0.5",
     "@types/node": "^9.6.4",
     "@unional/logging": "^0.5.0",
     "aurelia-logging-color": "^0.5.15",
